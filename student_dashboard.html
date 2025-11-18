@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - BUPH Assignment System{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">📚 My Assignments</div>
+    
+    {% if assignments %}
+        {% for assignment in assignments %}
+        <div class="assignment-card">
+            <div class="assignment-header">
+                <div>
+                    <h3 class="assignment-title">{{ assignment.title }}</h3>
+                    <p class="course-info">{{ assignment.course_code }} - {{ assignment.course_name }}</p>
+                </div>
+                {% if assignment.submission_id %}
+                    {% if assignment.status == 'graded' %}
+                        <span class="status-badge status-graded">Graded</span>
+                    {% else %}
+                        <span class="status-badge status-submitted">Submitted</span>
+                    {% endif %}
+                {% else %}
+                    <span class="status-badge status-pending">Not Submitted</span>
+                {% endif %}
+            </div>
+            
+            <div class="assignment-meta">
+                <div class="meta-item">
+                    <strong>Due Date:</strong> {{ assignment.due_date }}
+                </div>
+                <div class="meta-item">
+                    <strong>Total Marks:</strong> {{ assignment.total_marks }}
+                </div>
+                {% if assignment.grade %}
+                <div class="meta-item">
+                    <strong>Your Grade:</strong> {{ assignment.grade }}/{{ assignment.total_marks }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <p style="color: #666; margin-bottom: 1rem;">{{ assignment.description }}</p>
+            
+            {% if assignment.feedback %}
+            <div style="background: #f8f9fa; padding: 1rem; border-radius: 5px; margin-bottom: 1rem;">
+                <strong>Instructor Feedback:</strong>
+                <p style="margin-top: 0.5rem;">{{ assignment.feedback }}</p>
+            </div>
+            {% endif %}
+            
+            <div style="display: flex; gap: 1rem;">
+                {% if not assignment.submission_id %}
+                    <a href="{{ url_for('submit_assignment', assignment_id=assignment.id) }}" class="btn btn-primary">Submit Assignment</a>
+                {% else %}
+                    <a href="{{ url_for('submit_assignment', assignment_id=assignment.id) }}" class="btn btn-secondary">Resubmit</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align: center; color: #666; padding: 2rem;">No assignments available yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

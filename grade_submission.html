@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Grade Submission - BUPH Assignment System{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 700px; margin: 2rem auto;">
+    <div class="card-header">✍️ Grade Assignment</div>
+    
+    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 5px; margin-bottom: 2rem;">
+        <h3 style="color: #667eea; margin-bottom: 1rem;">{{ submission.title }}</h3>
+        <p><strong>Student:</strong> {{ submission.full_name }} ({{ submission.student_id }})</p>
+        <p><strong>Total Marks:</strong> {{ submission.total_marks }}</p>
+        {% if submission.grade %}
+        <p><strong>Current Grade:</strong> {{ submission.grade }}/{{ submission.total_marks }}</p>
+        {% endif %}
+    </div>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="grade">Grade (out of {{ submission.total_marks }})</label>
+            <input type="number" id="grade" name="grade" required min="0" max="{{ submission.total_marks }}" 
+                   value="{{ submission.grade if submission.grade else '' }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="feedback">Feedback</label>
+            <textarea id="feedback" name="feedback" rows="6" placeholder="Provide detailed feedback to the student...">{{ submission.feedback if submission.feedback else '' }}</textarea>
+        </div>
+        
+        <div style="display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-success">Save Grade</button>
+            <a href="{{ url_for('view_submissions', assignment_id=submission.assignment_id) }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}View Submissions - BUPH Assignment System{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <a href="{{ url_for('instructor_dashboard') }}" class="btn btn-secondary" style="float: right;">← Back</a>
+        📊 Assignment Submissions
+    </div>
+    
+    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 5px; margin-bottom: 2rem;">
+        <h3 style="color: #667eea; margin-bottom: 1rem;">{{ assignment.title }}</h3>
+        <p><strong>Course:</strong> {{ assignment.course_code }} - {{ assignment.course_name }}</p>
+        <p><strong>Due Date:</strong> {{ assignment.due_date }}</p>
+        <p><strong>Total Marks:</strong> {{ assignment.total_marks }}</p>
+        <p style="margin-top: 1rem;"><strong>Description:</strong> {{ assignment.description }}</p>
+    </div>
+    
+    <h3 style="margin-bottom: 1rem; color: #667eea;">Student Submissions ({{ submissions|length }})</h3>
+    
+    {% if submissions %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Student ID</th>
+                    <th>Submitted At</th>
+                    <th>Status</th>
+                    <th>Grade</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for submission in submissions %}
+                <tr>
+                    <td><strong>{{ submission.full_name }}</strong></td>
+                    <td>{{ submission.student_id }}</td>
+                    <td>{{ submission.submitted_at }}</td>
+                    <td>
+                        {% if submission.status == 'graded' %}
+                            <span class="status-badge status-graded">Graded</span>
+                        {% else %}
+                            <span class="status-badge status-submitted">Submitted</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if submission.grade %}
+                            <strong>{{ submission.grade }}/{{ assignment.total_marks }}</strong>
+                        {% else %}
+                            <span style="color: #999;">Not graded</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('download_file', submission_id=submission.id) }}" class="btn btn-secondary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Download</a>
+                        <a href="{{ url_for('grade_submission', submission_id=submission.id) }}" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">
+                            {% if submission.grade %}Edit Grade{% else %}Grade{% endif %}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="text-align: center; color: #666; padding: 2rem;">No submissions yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

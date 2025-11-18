@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Instructor Dashboard - BUPH Assignment System{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <span>👨‍🏫 Instructor Dashboard</span>
+        <a href="{{ url_for('create_assignment') }}" class="btn btn-primary">Create New Assignment</a>
+    </div>
+    
+    <h3 style="margin-bottom: 1rem; color: #667eea;">📚 My Courses</h3>
+    {% if courses %}
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+            {% for course in courses %}
+            <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                <h4 style="color: #667eea; margin-bottom: 0.5rem;">{{ course.course_code }}</h4>
+                <p style="color: #666;">{{ course.course_name }}</p>
+                <p style="color: #999; font-size: 0.9rem; margin-top: 0.5rem;">{{ course.department }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="color: #666; margin-bottom: 2rem;">No courses assigned yet. Contact administrator.</p>
+    {% endif %}
+    
+    <h3 style="margin-bottom: 1rem; color: #667eea;">📝 My Assignments</h3>
+    {% if assignments %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Assignment Title</th>
+                    <th>Course</th>
+                    <th>Due Date</th>
+                    <th>Submissions</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assignment in assignments %}
+                <tr>
+                    <td><strong>{{ assignment.title }}</strong></td>
+                    <td>{{ assignment.course_code }}</td>
+                    <td>{{ assignment.due_date }}</td>
+                    <td><span class="status-badge status-submitted">{{ assignment.submission_count }}</span></td>
+                    <td>
+                        <a href="{{ url_for('view_submissions', assignment_id=assignment.id) }}" class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.85rem;">View Submissions</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="color: #666; text-align: center; padding: 2rem;">No assignments created yet. Click "Create New Assignment" to get started.</p>
+    {% endif %}
+</div>
+{% endblock %}

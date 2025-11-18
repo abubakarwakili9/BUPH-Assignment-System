@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero">
+    <h1>📚 Online Assignment Submission System</h1>
+    <p>Binyaminu Usman Polytechnic, Hadejia</p>
+    <p>Submit assignments online, receive feedback, and track your progress all in one place.</p>
+    <div class="hero-buttons">
+        <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+        <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+    </div>
+</div>
+
+<div class="dashboard-grid">
+    <div class="stat-card">
+        <h3>✨</h3>
+        <p>Easy Submission</p>
+    </div>
+    <div class="stat-card">
+        <h3>📊</h3>
+        <p>Track Progress</p>
+    </div>
+    <div class="stat-card">
+        <h3>💬</h3>
+        <p>Quick Feedback</p>
+    </div>
+    <div class="stat-card">
+        <h3>🔒</h3>
+        <p>Secure Storage</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">About the System</div>
+    <p style="line-height: 1.8; color: #666;">
+        This online assignment submission system is designed to streamline the process of assignment management 
+        at Binyaminu Usman Polytechnic. Students can submit their assignments from anywhere at any time, 
+        while instructors can efficiently manage, grade, and provide feedback on submissions. The system 
+        provides a centralized, secure, and organized platform for all assignment-related activities.
+    </p>
+</div>
+{% endblock %}
