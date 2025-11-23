@@ -10,7 +10,8 @@
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <h2>📚 BUPH Assignment System</h2>
+				<img src="{{ url_for('static', filename='buph-logo.png') }}" alt="BUPH Logo" style="height: 50px; margin-right: 15px; vertical-align: middle;">
+				<h2 style="display: inline-block; vertical-align: middle;">BUPH Assignment System</h2>
             </div>
             <div class="nav-menu">
                 {% if session.user_id %}
@@ -40,7 +41,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Binyaminu Usman Polytechnic, Hadejia. All rights reserved.</p>
+            <p>&copy; 2025 Binyaminu Usman Polytechnic, Hadejia. All rights reserved.</p>
         </div>
     </footer>
 </body>
